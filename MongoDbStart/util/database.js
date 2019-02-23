@@ -1,13 +1,15 @@
 const mongodb = require('mongodb');
-const mongoClient = mongodb.MongoClient;
+const MongoClient = mongodb.MongoClient;
 
 let _db;
 
-const mongoConnect = (callback) => {
-  mongoClient.connect('mongodb+srv://manoj:Zaq!xsw2cde3@cluster0-2m8vj.mongodb.net/shop?retryWrites=true')
+const mongoConnect = callback => {
+  MongoClient.connect(
+    'mongodb+srv://manoj:Zaq!xsw2cde3@cluster0-2m8vj.mongodb.net/shop?retryWrites=true'
+  )
     .then(client => {
       console.log('Connected!');
-      _db = client.db(); //client.db('anotherDatabase') - can connect to a another database passing param - will create a new if it not exist
+      _db = client.db();
       callback();
     })
     .catch(err => {
@@ -16,13 +18,12 @@ const mongoConnect = (callback) => {
     });
 };
 
-getDB = () => {
+const getDb = () => {
   if (_db) {
     return _db;
   }
   throw 'No database found!';
-}
+};
 
-// module.exports = mongoConnect;
 exports.mongoConnect = mongoConnect;
-exports.getDB = getDB;
+exports.getDb = getDb;
